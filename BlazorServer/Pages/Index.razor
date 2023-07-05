@@ -26,5 +26,12 @@
         .WithUrl(NavManager.ToAbsoluteUri("/chathub"))
         .WithAutomaticReconnect()
         .Build();
+
+        hubConnection.On<string, string>("RecieveMessage", (user, message) =>
+        {
+            var formattedMessage = $"{user}: {message}";
+            messages.Add(formattedMessage);
+            InvokeAsync(StateHasChanged);
+        });
     }
 }
